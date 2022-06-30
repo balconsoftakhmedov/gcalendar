@@ -21,8 +21,8 @@ if(isset($_POST['submit'])){
 	 $_SESSION['description'] =  $description;
 	 $_SESSION['location'] =   $location ;
 	 $_SESSION['date'] =  $date ;
-	 $_SESSION['time_from'] =    $time_from;
-	 $_SESSION['time_to'] =   $time_to;
+	 $_SESSION['time_from'] =    "{$time_from}:00";
+	 $_SESSION['time_to'] =   "{$time_to}:00";
 
     // Validate form input fields
 	/*
