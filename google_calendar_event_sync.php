@@ -11,23 +11,6 @@ if(isset($_GET['code'])){
     // Initialize Google Calendar API class
     $GoogleCalendarApi = new GoogleCalendarApi();
 
-    // Get event ID from session
-  //  $event_id = $_SESSION['last_event_id'];
-
-  //  if(!empty($event_id)){
-
-        // Fetch event details from database
-	    /*
-        $sqlQ = "SELECT * FROM events WHERE id = ?";
-        $stmt = $db->prepare($sqlQ);
-        $stmt->bind_param("i", $db_event_id);
-        $db_event_id = $event_id;
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $eventData = $result->fetch_assoc();
-*/
-
-
 	   $eventData['title'] =  $_SESSION['title'];
 	   $eventData['location'] =  $_SESSION['location'];
 	   $eventData['description'] = $_SESSION['description'];
@@ -70,14 +53,7 @@ if(isset($_GET['code'])){
 
                     if($google_event_id){
                         // Update google event reference in the database
-	                    /*
-                        $sqlQ = "UPDATE events SET google_calendar_event_id=? WHERE id=?";
-                        $stmt = $db->prepare($sqlQ);
-                        $stmt->bind_param("si", $db_google_event_id, $db_event_id);
-                        $db_google_event_id = $google_event_id;
-                        $db_event_id = $event_id;
-                        $update = $stmt->execute();
-*/
+
                         unset($_SESSION['last_event_id']);
                         unset($_SESSION['google_access_token']);
 
@@ -92,12 +68,6 @@ if(isset($_GET['code'])){
             }else{
                 $statusMsg = 'Failed to fetch access token!';
             }
-     //   }else{
-     //       $statusMsg = 'Event data not found!';
-     //   }
-  //  }else{
-  //      $statusMsg = 'Event reference not found!';
-  //  }
 
     $_SESSION['status_response'] = array('status' => $status, 'status_msg' => $statusMsg);
 
