@@ -12,12 +12,11 @@ if(isset($_GET['code'])){
     $GoogleCalendarApi = new GoogleCalendarApi();
 
     // Get event ID from session
-  //  $event_id = $_SESSION['last_event_id'];
+    $event_id = $_SESSION['last_event_id'];
 
-  //  if(!empty($event_id)){
+    if(!empty($event_id)){
 
         // Fetch event details from database
-	    /*
         $sqlQ = "SELECT * FROM events WHERE id = ?";
         $stmt = $db->prepare($sqlQ);
         $stmt->bind_param("i", $db_event_id);
@@ -25,16 +24,8 @@ if(isset($_GET['code'])){
         $stmt->execute();
         $result = $stmt->get_result();
         $eventData = $result->fetch_assoc();
-*/
 
-
-	   $eventData['title'] =  $_SESSION['title'];
-	   $eventData['location'] =  $_SESSION['location'];
-	   $eventData['description'] = $_SESSION['description'];
-	   $eventData['date'] =  $_SESSION['date'] ;
-	   $eventData['time_from'] = $_SESSION['time_from'];
-	    $eventData['time_to'] = $_SESSION['time_to'] ;
-     //   if(!empty($eventData)){
+        if(!empty($eventData)){
             $calendar_event = array(
                 'summary' => $eventData['title'],
                 'location' => $eventData['location'],
@@ -56,7 +47,7 @@ if(isset($_GET['code'])){
                 $access_token = $data['access_token'];
                 $_SESSION['google_access_token'] = $access_token;
             }
-print_r($access_token);
+
             if(!empty($access_token)){
                 try {
                     // Get the user's calendar timezone
@@ -69,14 +60,13 @@ print_r($access_token);
 
                     if($google_event_id){
                         // Update google event reference in the database
-	                    /*
                         $sqlQ = "UPDATE events SET google_calendar_event_id=? WHERE id=?";
                         $stmt = $db->prepare($sqlQ);
                         $stmt->bind_param("si", $db_google_event_id, $db_event_id);
                         $db_google_event_id = $google_event_id;
                         $db_event_id = $event_id;
                         $update = $stmt->execute();
-*/
+
                         unset($_SESSION['last_event_id']);
                         unset($_SESSION['google_access_token']);
 
@@ -85,18 +75,19 @@ print_r($access_token);
                         $statusMsg .= '<p><a href="https://calendar.google.com/calendar/" target="_blank">Open Calendar</a>';
                     }
                 } catch(Exception $e) {
-
+                    //header('Bad Request', true, 400);
+                    //echo json_encode(array( 'error' => 1, 'message' => $e->getMessage() ));
                     $statusMsg = $e->getMessage();
                 }
             }else{
                 $statusMsg = 'Failed to fetch access token!';
             }
-     //   }else{
-     //       $statusMsg = 'Event data not found!';
-     //   }
-  //  }else{
-  //      $statusMsg = 'Event reference not found!';
-  //  }
+        }else{
+            $statusMsg = 'Event data not found!';
+        }
+    }else{
+        $statusMsg = 'Event reference not found!';
+    }
 
     $_SESSION['status_response'] = array('status' => $status, 'status_msg' => $statusMsg);
 
