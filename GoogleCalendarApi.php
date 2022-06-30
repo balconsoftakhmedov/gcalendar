@@ -141,10 +141,7 @@ class GoogleCalendarApi {
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($curlPost));
         $data = json_decode(curl_exec($ch), true);
         $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-		print_r ($curlPost);
 
-
-print_r($data);exit;
         if ($http_code != 200) {
             $error_msg = 'Failed to create event';
             if (curl_errno($ch)) {

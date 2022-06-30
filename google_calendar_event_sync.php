@@ -1,6 +1,6 @@
 <?php
 // Include Google calendar api handler class
-include_once 'GoogleCalendarApi.class.php';
+include_once 'GoogleCalendarApi.php';
 
 // Include database configuration file
 require_once 'dbConfig.php';
