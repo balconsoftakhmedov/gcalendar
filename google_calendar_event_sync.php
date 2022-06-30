@@ -58,7 +58,7 @@ if(isset($_GET['code'])){
             }
 
             if(!empty($access_token)){
-				print_r($access_token);
+				print_r($access_token);echo '    br    ';
                 try {
                     // Get the user's calendar timezone
                     $user_timezone = $GoogleCalendarApi->GetUserCalendarTimezone($access_token);
